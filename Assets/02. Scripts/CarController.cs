@@ -22,9 +22,9 @@ public class CarController : MonoBehaviour
     private void FixedUpdate()
     {
         // 입력값 받기
-        float   steering    = GetStrrting();        // -1 ~ 1 (좌 ~ 우)
-        float   throttle    = GetThrottle();        // -1 ~ 1 (전 ~ 후)
-        bool    isBraking   = GetBreak();           // 브레이크
+        float   steering    = InputUtility.GetSteering();        // -1 ~ 1 (좌 ~ 우)
+        float   throttle    = InputUtility.GetThrottle();        // -1 ~ 1 (전 ~ 후)
+        float   isBraking   = InputUtility.GetBrake();           // 브레이크
 
         if (Keyboard.current != null)
         {
@@ -60,7 +60,7 @@ public class CarController : MonoBehaviour
         }
 
         // 브레이크 처리 (속도감소)
-        if (isBraking == true)
+        if (isBraking == 1)
         {
             // 수평 속도만 감속
             Vector3 v = rb.linearVelocity;
@@ -76,60 +76,5 @@ public class CarController : MonoBehaviour
 
             rb.linearVelocity = vHorizontal + vVertical;
         }
-    }
-
-    // 좌/우 입력 처리
-    private float GetStrrting()
-    {
-        if (Keyboard.current == null)
-        {
-            return 0f;
-        }
-
-        float steer = 0f;
-
-        if (Keyboard.current.aKey.isPressed)
-        {
-            steer -= 1f;
-        }
-        if (Keyboard.current.dKey.isPressed)
-        {
-            steer += 1f;
-        }
-
-        return steer;
-    }
-
-    // 전/후 입력 처리
-    private float GetThrottle()
-    {
-        if (Keyboard.current == null)
-        {
-            return 0f;
-        }
-
-        float throttle = 0f;
-
-        if (Keyboard.current.wKey.isPressed)
-        {
-            throttle += 1f;
-        }
-        if (Keyboard.current.sKey.isPressed)
-        {
-            throttle -= 1f;
-        }
-
-        return throttle;
-    }
-
-    // 브레이크 입력 처리
-    private bool GetBreak()
-    {
-        if (Keyboard.current == null)
-        {
-            return false;
-        }
-
-        return Keyboard.current.spaceKey.isPressed;
     }
 }
